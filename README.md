@@ -8,9 +8,9 @@ Author: Qingda(Michael) Mai
 
 Architecture Overview
 
-1) Data Ingestion: Raw data is ingested into the system using Kafka. The data can come from various sources like IoT devices, user activity logs, etc.
+1) Data Ingestion: Raw data is ingested into the system using  `Kafka`. The data can come from various sources like IoT devices, user activity logs, etc. In this project, we use Python API to parse the `JSON-type` data, more specifically, randomly generated customer information.
 
-2) Data Processing: Airflow schedules Spark jobs to process the raw data. The processed data can either be aggregated, filtered, or transformed based on the business logic.
+2) Data Processing: Airflow schedules Spark jobs to process the raw data. The processed data can either be aggregated, filtered, or transformed based on the business logic. In this project, we use Python programming language to write Airflow to schedule the jobs' flow. And use SQL & Python to transform the `NOSQL` recognizable object into the `pyspark` recognizable object.
 
 3) Data Storage: The processed data is stored in either Cassandra for NoSQL needs or PostgreSQL for relational data storage.
 
