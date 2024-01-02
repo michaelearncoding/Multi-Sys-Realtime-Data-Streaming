@@ -40,6 +40,9 @@ PostgreSQL
 
 Docker
 
+![image](https://github.com/michaelearncoding/Realtime-Data-Streaming/assets/47378073/1cca2d76-404c-4c58-83e6-484742df9235)
+
+
 ![](https://github.com/michaelearncoding/Realtime-Data-Streaming/blob/main/Data%20engineering%20architecture.png?raw=true)
 
 Architecture Overview
