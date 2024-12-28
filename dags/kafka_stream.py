@@ -51,6 +51,7 @@ def stream_data():
         try:
             res = get_data()
             res = format_data(res)
+            res['id'] = str(res['id'])  # Convert UUID to string
 
             producer.send('users_created', json.dumps(res).encode('utf-8'))
         except Exception as e:
