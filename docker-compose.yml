@@ -107,6 +107,7 @@ services:
     image: apache/airflow:2.6.0-python3.9
     command: webserver
     entrypoint: ['/bin/bash', '-c', 'chmod +x /opt/airflow/script/entrypoint.sh && /opt/airflow/script/entrypoint.sh']
+    hostname: webserver
     depends_on:
       - postgres
     environment:
@@ -123,7 +124,7 @@ services:
       - ./script/entrypoint.sh:/opt/airflow/script/entrypoint.sh
       - ./requirements.txt:/opt/airflow/requirements.txt
     ports:
-      - "8080:8080"
+      - "8082:8080"
     healthcheck:
       test: ['CMD-SHELL', "[ -f /opt/airflow/airflow-webserver.pid ]"]
       interval: 30s
@@ -137,6 +138,7 @@ services:
     depends_on:
       webserver:
         condition: service_healthy
+    hostname: scheduler
     volumes:
       - ./dags:/opt/airflow/dags
       - ./script/entrypoint.sh:/opt/airflow/script/entrypoint.sh
@@ -156,6 +158,7 @@ services:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
+    hostname: postgres
     logging:
       options:
         max-size: 10m
@@ -166,14 +169,17 @@ services:
   spark-master:
     image: bitnami/spark:latest
     command: bin/spark-class org.apache.spark.deploy.master.Master
+    hostname: spark-master
     ports:
-      - "9090:8080"
+      - "8080:8080"
       - "7077:7077"
     networks:
       - confluent
+
   spark-worker:
     image: bitnami/spark:latest
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    hostname: spark-worker
     depends_on:
       - spark-master
     environment:
@@ -187,7 +193,7 @@ services:
   cassandra_db:
     image: cassandra:latest
     container_name: cassandra
-    hostname: cassandra
+    hostname: cassandra_db
     ports:
       - "9042:9042"
     environment:
